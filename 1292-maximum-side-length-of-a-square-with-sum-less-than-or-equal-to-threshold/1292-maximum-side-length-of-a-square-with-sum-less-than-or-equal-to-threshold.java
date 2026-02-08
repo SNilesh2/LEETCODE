@@ -55,33 +55,4 @@ class Solution {
         }
         return false;
     }
-
-    public static int count(int maxi,int[][] matrix,int threshold)
-    {
-        int row=matrix.length;
-        int col=matrix[0].length;
-        int count=0;
-        for(int i=0;i<=row-maxi;i++)
-        {
-            for(int j=0;j<=col-maxi;j++)
-            {
-                int startRow=i;
-                int startCol=j;
-                int sum=0;
-
-                for(int k=startRow;k<startRow+maxi;k++)
-                {
-                    for(int l=startCol;l<startCol+maxi;l++)
-                    {
-                        sum=sum + matrix[k][l];
-                    }
-                }
-                if(sum<=threshold)
-                {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
 }
