@@ -15,13 +15,12 @@
  */
 class Solution {
     public int averageOfSubtree(TreeNode root) {
-        int[] arr = new int[2];
         int[] ans = new int[1];
-        findCount(root,arr,ans);
+        findCount(root,ans);
         return ans[0];
     }
 
-    public static int[] findCount(TreeNode root,int[] arr,int[] ans)
+    public static int[] findCount(TreeNode root,int[] ans)
     {
 
         //0th ind -> sum
@@ -35,10 +34,10 @@ class Solution {
             return temp;
         }
 
-        int[] left = new int[2];
-        left = findCount(root.left,arr,ans); //9 3
-        int[] right = new int[2];
-        right = findCount(root.right,arr,ans); 
+        
+        int[] left = findCount(root.left,ans); 
+    
+        int[] right = findCount(root.right,ans); 
 
         int sum = left[0] + right[0] + root.val;
         int count = (left[1] + right[1]) + 1;
