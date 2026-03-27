@@ -15,10 +15,6 @@
  */
 class Solution {
     public boolean evaluateTree(TreeNode root) {
-        return helper(root);
-    }
-    public static boolean helper(TreeNode root)
-    {
         if(root.left==null && root.right==null)
         {
             if(root.val==1)
@@ -28,9 +24,9 @@ class Solution {
             return false;
         }
 
-        boolean left = helper(root.left);
+        boolean left = evaluateTree(root.left);
 
-        boolean right = helper(root.right);
+        boolean right = evaluateTree(root.right);
 
         if(root.val == 2)
         {
