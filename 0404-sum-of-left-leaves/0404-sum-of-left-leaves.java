@@ -15,19 +15,28 @@
  */
 class Solution {
     public int sumOfLeftLeaves(TreeNode root) {
-        if (root == null) return 0;
-
-        int sum = 0;
-
-        // Check if left child is a leaf
-        if (root.left != null && root.left.left == null && root.left.right == null) {
-            sum += root.left.val;
+        int[] ans = new int[1];
+        helper(root,ans);
+        return ans[0];
+    }
+    public static int helper(TreeNode root,int[] ans)
+    {
+        if(root==null)
+        {
+            return 0;
         }
 
-        // Recurse on both sides
-        sum += sumOfLeftLeaves(root.left);
-        sum += sumOfLeftLeaves(root.right);
+        if(root.left==null && root.right==null)
+        {
+            return root.val;
+        }
 
-        return sum;
+        int left = helper(root.left,ans);
+
+        ans[0] = ans[0] + left;
+
+        helper(root.right,ans);
+
+        return 0;
     }
 }
