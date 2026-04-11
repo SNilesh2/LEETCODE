@@ -15,23 +15,23 @@
  */
 class Solution {
     public int diameterOfBinaryTree(TreeNode root) {
-        int[] diameter=new int[1];
-        helper(root,diameter);
-        return diameter[0];
+        int[] ans = new int[1];
+        findDiameter(root,ans);
+        return ans[0];
     }
-
-    public static int helper(TreeNode root,int[] diameter)
+    public static int findDiameter(TreeNode root,int[] ans)
     {
         if(root==null)
         {
             return 0;
         }
 
-        int left = helper(root.left,diameter);
+        int left = findDiameter(root.left,ans);
 
-        int right = helper(root.right,diameter);
+        int right = findDiameter(root.right,ans);
 
-        diameter[0] = Math.max(diameter[0],left+right);
+        ans[0] = Math.max(ans[0],left+right);
+
         return Math.max(left,right) + 1;
     }
 }
