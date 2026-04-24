@@ -17,23 +17,21 @@ class Solution {
     public int findBottomLeftValue(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
 
-        int level = findLevel(root);
-
         q.add(root);
 
-        int countLevel = 1;
-        int result = 0;
+        int result = root.val;
         while(!q.isEmpty())
         {
             int size = q.size();
 
-            if(countLevel==level)
-            {
-                result = q.peek().val;
-            }
             for(int i=0;i<size;i++)
             {
                 TreeNode polled = q.poll();
+
+                if(i==0)
+                {
+                    result = polled.val;
+                }
 
                 if(polled.left!=null)
                 {
@@ -45,21 +43,7 @@ class Solution {
                     q.add(polled.right);
                 }
             }
-            countLevel++;
         }
         return result;
-    }
-    public static int findLevel(TreeNode root)
-    {
-        if(root==null)
-        {
-            return 0;
-        }
-
-        int left = findLevel(root.left);
-
-        int right = findLevel(root.right);
-
-        return Math.max(left,right) + 1;
     }
 }
