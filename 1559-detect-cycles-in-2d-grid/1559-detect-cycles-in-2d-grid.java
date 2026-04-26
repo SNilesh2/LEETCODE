@@ -38,7 +38,7 @@ class Solution {
                     return true;
                 }
             }
-            else if(newRow>=0 && newRow<m && newCol>=0 && newCol<n && grid[newRow][newCol]==initChar && vis[newRow][newCol]==1 && (newRow!=parRow || newCol!=parCol))
+            else if(newRow>=0 && newRow<m && newCol>=0 && newCol<n && grid[newRow][newCol]==initChar && vis[newRow][newCol]==1 && newRow!=parRow && newCol!=parCol)
             {
                 return true;
             }
