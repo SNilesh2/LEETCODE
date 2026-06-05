@@ -2,62 +2,76 @@ class Pair
 {
     int row;
     int col;
-    int time;
-    Pair(int _row,int _col,int _time)
+    int minute;
+
+    public Pair(int row,int col,int minute)
     {
-        this.row=_row;
-        this.col=_col;
-        this.time=_time;
+        this.row = row;
+        this.col = col;
+        this.minute = minute;
     }
 }
+
 class Solution {
     public int orangesRotting(int[][] grid) {
-        int n=grid.length;
-        int m=grid[0].length;
-        Queue<Pair> q=new LinkedList<>();
-        int[][] vis=new int[n][m];
-        int cntfresh=0;
-        for(int i=0;i<n;i++)
+        int maxMinute = 0;
+        Queue<Pair> q = new LinkedList<>();
+        int fresh = 0;
+
+        for(int i=0;i<grid.length;i++)
         {
-            for(int j=0;j<m;j++)
+            for(int j=0;j<grid[0].length;j++)
             {
                 if(grid[i][j]==2)
                 {
                     q.add(new Pair(i,j,0));
-                    vis[i][j]=2;
                 }
-                else
+                if(grid[i][j]==1)
                 {
-                    vis[i][j]=0;
+                    fresh++;
                 }
-                if(grid[i][j]==1) cntfresh++;
             }
         }
-        if(cntfresh==0) return 0;
-        int[] drow={-1,0,1,0};
-        int[] dcol={0,1,0,-1};
-        int cnt=0;
-        int tm=Integer.MIN_VALUE;
+
+        if(fresh==0)
+        {
+            return 0;
+        }
+
+        int[] drow = {-1,0,1,0};
+        int[] dcol = {0,1,0,-1};
+
+        int cnt = 0;
         while(!q.isEmpty())
         {
-            int r=q.peek().row;
-            int c=q.peek().col;
-            int t=q.peek().time;
-            tm=Math.max(tm,t);
-            q.remove();
+            Pair p = q.poll();
+            int r = p.row;
+            int c = p.col;
+            int m = p.minute;
+            
+
             for(int i=0;i<4;i++)
             {
-                int nrow=r+drow[i];
-                int ncol=c+dcol[i];
-                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && vis[nrow][ncol]==0 && grid[nrow][ncol]==1)
+                int newRow = r + drow[i];
+                int newCol = c + dcol[i];
+
+
+                if(newRow>=0 && newRow<grid.length && newCol>=0 && newCol<grid[0].length && grid[newRow][newCol]==1)
                 {
-                    q.add(new Pair(nrow,ncol,t+1));
-                    vis[nrow][ncol]=2;
+                    maxMinute = Math.max(maxMinute,m+1);
+                    grid[newRow][newCol] = 2;
+                    q.add(new Pair(newRow,newCol,m+1));
                     cnt++;
                 }
             }
         }
-        if(cnt!=cntfresh) return -1;
-        return tm;
+
+        if(fresh!=cnt)
+        {
+            return -1;
+        }
+
+
+        return maxMinute;
     }
 }
