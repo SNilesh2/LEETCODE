@@ -11,6 +11,12 @@ class Pair
 
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+
+        if(image[sr][sc]==color)
+        {
+            return image;
+        }
+        
         int original = image[sr][sc];
         int rowLen = image.length;
         int colLen = image[0].length;
