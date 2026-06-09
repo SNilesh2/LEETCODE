@@ -2,52 +2,56 @@ class Pair
 {
     int row;
     int col;
-    int step;
-    public Pair(int _row,int _col,int _step)
+    public Pair(int row,int col)
     {
-        this.row=_row;
-        this.col=_col;
-        this.step=_step;
+        this.row = row;
+        this.col = col;
     }
 }
 class Solution {
     public int[][] updateMatrix(int[][] mat) {
-        int m=mat.length;
-        int n=mat[0].length;
-        Queue<Pair> q=new LinkedList<>();
-        int[][] vis=new int[m][n];
-        int[][] res=new int[m][n];
-        for(int i=0;i<m;i++)
+        int rows = mat.length;
+        int cols = mat[0].length;
+
+        int[][] result = new int[rows][cols];
+        Queue<Pair> q = new LinkedList<>();
+
+        for(int i=0;i<rows;i++)
         {
-            for(int j=0;j<n;j++)
+            for(int j=0;j<cols;j++)
             {
-                if(mat[i][j]==0) 
+                if(mat[i][j]==0)
                 {
-                    q.add(new Pair(i,j,0));
-                    vis[i][j]=1;
+                    q.add(new Pair(i,j));
+                }
+                else 
+                {
+                    result[i][j] = -1;
                 }
             }
         }
+
+        int[] drow = {-1,0,1,0};
+        int[] dcol = {0,1,0,-1};
+
         while(!q.isEmpty())
         {
-            Pair curr=q.poll();
-            int r=curr.row;
-            int c=curr.col;
-            int s=curr.step;
-            res[r][c]=s;
-            int[] drow={-1,0,1,0};
-            int[] dcol={0,1,0,-1};
+            Pair p = q.poll();
+            int r = p.row;
+            int c = p.col;
+
             for(int i=0;i<4;i++)
             {
-                int adjrow=r+drow[i];
-                int adjcol=c+dcol[i];
-                if(adjrow>=0 && adjrow<m && adjcol>=0 && adjcol<n && vis[adjrow][adjcol]==0 )
+                int nr = r + drow[i];
+                int nc = c + dcol[i];
+
+                if(nr>=0 && nr<rows && nc>=0 && nc<cols && result[nr][nc]==-1)
                 {
-                    q.add(new Pair(adjrow,adjcol,s+1));
-                    vis[adjrow][adjcol]=1;
+                    result[nr][nc] = result[r][c] + 1;
+                    q.add(new Pair(nr,nc));
                 }
             }
         }
-        return res;
+        return result;
     }
 }
