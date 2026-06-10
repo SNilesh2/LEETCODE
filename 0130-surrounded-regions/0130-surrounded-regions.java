@@ -1,41 +1,46 @@
 class Solution {
     public void solve(char[][] board) {
-        int m=board.length;
-        int n=board[0].length;
-        int[][] vis=new int[m][n];
-        int[] drow={-1,0,1,0};
-        int[] dcol={0,1,0,-1};
-        for(int i=0;i<m;i++)
+        int rows = board.length;
+        int cols = board[0].length;
+        int[][] vis = new int[rows][cols];
+
+        for(int i=0;i<rows;i++)
         {
-            for(int j=0;j<n;j++)
+            for(int j=0;j<cols;j++)
             {
-                if((i==0 || i==m-1 || j==0 || j==n-1) && vis[i][j]==0 && board[i][j]=='O')
+                if((i==0 || j==0 || i==rows-1 || j==cols-1) && board[i][j]=='O')
                 {
-                    dfs(i,j,board,vis,drow,dcol);
+                    dfs(i,j,board,vis);
                 }
             }
         }
-        for(int i=0;i<m;i++)
+
+        for(int i=1;i<rows;i++)
         {
-            for(int j=0;j<n;j++)
+            for(int j=1;j<cols;j++)
             {
                 if(board[i][j]=='O' && vis[i][j]==0)
                 {
-                    board[i][j]='X';
+                    board[i][j] = 'X';
                 }
             }
         }
     }
-    public static void dfs(int r,int c,char[][] board,int[][] vis,int[] drow,int[] dcol)
+    public static void dfs(int row ,int col,char[][] board,int[][] vis)
     {
-        vis[r][c]=1;
+        vis[row][col] = 1;
+
+        int[] drow = {-1,0,1,0};
+        int[] dcol = {0,1,0,-1};
+
         for(int i=0;i<4;i++)
         {
-            int adjrow=r+drow[i];
-            int adjcol=c+dcol[i];
-            if(adjrow>=0 && adjrow<board.length && adjcol>=0 && adjcol<board[0].length && board[adjrow][adjcol]=='O' && vis[adjrow][adjcol]==0)
+            int nr = row + drow[i];
+            int nc = col + dcol[i];
+
+            if(nr>=0 && nr<board.length && nc>=0 && nc<board[0].length && board[nr][nc]=='O' && vis[nr][nc]==0)
             {
-                dfs(adjrow,adjcol,board,vis,drow,dcol);
+                dfs(nr,nc,board,vis);
             }
         }
     }
