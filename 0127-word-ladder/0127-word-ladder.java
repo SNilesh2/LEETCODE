@@ -1,47 +1,62 @@
 class Pair
 {
     String str;
-    Integer cnt;
-    Pair(String _str,Integer _cnt)
+    int level;
+    public Pair(String str,int level)
     {
-        this.str=_str;
-        this.cnt=_cnt;
+        this.str = str;
+        this.level = level;
     }
 }
+
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        HashSet<String> set=new HashSet<>();
-        for(String s:wordList)
+
+        HashSet<String> set = new HashSet<>();
+        for(String s : wordList)
         {
             set.add(s);
         }
-        Queue<Pair> q=new LinkedList<>(); 
-        if(set.contains(beginWord)==true)
+
+        if(!set.contains(endWord))
         {
-            set.remove(beginWord);
+            return 0;
         }
+
+        Queue<Pair> q = new LinkedList<>();
         q.add(new Pair(beginWord,1));
+
         while(!q.isEmpty())
         {
-            Pair pr=q.poll();
-            String str=pr.str;
-            Integer cnt=pr.cnt;
-            if(str.equals(endWord)==true) return cnt;
+            Pair p = q.poll();
+
+            String str = p.str;
+            int level = p.level;
+            if(str.equals(endWord))
+            {
+                return level;
+            }
+
             for(int i=0;i<str.length();i++)
             {
-                for(char ch='a';ch<='z';ch++)
+                StringBuilder sb = new StringBuilder(str);
+                for(char c='a';c<='z';c++)
                 {
-                    char[] replace=str.toCharArray();
-                    replace[i]=ch;
-                    String s=new String(replace);
-                    if(set.contains(s)==true)
+                    if(str.charAt(i)==c)
                     {
-                        set.remove(s);
-                        q.add(new Pair(s,cnt+1));
+                        continue;
+                    }
+
+                    sb.setCharAt(i,c);
+                    if(set.contains(sb.toString()))
+                    {
+                        q.add(new Pair(sb.toString(),level + 1));
+                        set.remove(sb.toString());
                     }
                 }
             }
         }
+
         return 0;
     }
 }
