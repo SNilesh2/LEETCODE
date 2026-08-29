@@ -1,32 +1,29 @@
 class Pair
 {
-    int row;
-    int col;
-    public Pair(int row,int col)
+    int r;
+    int c;
+    int dis;
+    public Pair(int r ,int c,int dis)
     {
-        this.row = row;
-        this.col = col;
+        this.r = r;
+        this.c = c;
+        this.dis = dis;
     }
 }
+
 class Solution {
     public int[][] updateMatrix(int[][] mat) {
-        int rows = mat.length;
-        int cols = mat[0].length;
-
-        int[][] result = new int[rows][cols];
         Queue<Pair> q = new LinkedList<>();
 
-        for(int i=0;i<rows;i++)
+        int[][] vis = new int[mat.length][mat[0].length];
+        for(int i=0;i<mat.length;i++)
         {
-            for(int j=0;j<cols;j++)
+            for(int j=0;j<mat[0].length;j++)
             {
                 if(mat[i][j]==0)
                 {
-                    q.add(new Pair(i,j));
-                }
-                else 
-                {
-                    result[i][j] = -1;
+                    vis[i][j] = 1;
+                    q.add(new Pair(i,j,0));
                 }
             }
         }
@@ -37,21 +34,25 @@ class Solution {
         while(!q.isEmpty())
         {
             Pair p = q.poll();
-            int r = p.row;
-            int c = p.col;
+
+            int r = p.r;
+            int c = p.c;
+            int dis = p.dis;
 
             for(int i=0;i<4;i++)
             {
                 int nr = r + drow[i];
                 int nc = c + dcol[i];
 
-                if(nr>=0 && nr<rows && nc>=0 && nc<cols && result[nr][nc]==-1)
+                if(nr>=0 && nr<mat.length && nc>=0 && nc<mat[0].length && vis[nr][nc]==0 && mat[nr][nc]==1)
                 {
-                    result[nr][nc] = result[r][c] + 1;
-                    q.add(new Pair(nr,nc));
+                    vis[nr][nc] = 1;
+                    q.add(new Pair(nr,nc,dis+1));
+                    mat[nr][nc] = dis + 1;
                 }
             }
         }
-        return result;
+
+        return mat;
     }
 }
