@@ -1,30 +1,26 @@
 class Solution {
     public int rob(int[] nums) {
         int[] dp = new int[nums.length];
-        Arrays.fill(dp,-1);
-        return findMax(nums.length-1,nums,dp);
+        findMax(nums,dp);
+        return dp[nums.length-1];
     }
-    public static int findMax(int ind,int[] nums,int[] dp)
+    public static void findMax(int[] nums,int[] dp)
     {
-        if(ind==0)
+        dp[0] = nums[0];
+        for(int i=1;i<nums.length;i++)
         {
-            return nums[0];
+            int pick = nums[i];
+            if(i-2 >= 0)
+            {
+                pick = pick + dp[i-2];  
+            }
+            int notpick = Integer.MIN_VALUE;
+            if(i-1 >= 0)
+            {
+                notpick = 0 + dp[i-1];
+            }
+
+            dp[i] = Math.max(pick,notpick);
         }
-
-        if(ind<0)
-        {
-            return 0;
-        }
-
-        if(dp[ind]!=-1)
-        {
-            return dp[ind];
-        }
-
-        int pick = nums[ind] + findMax(ind-2,nums,dp);
-
-        int notpick = 0 + findMax(ind-1,nums,dp);
-
-        return dp[ind] = Math.max(pick,notpick);
     }
 }
