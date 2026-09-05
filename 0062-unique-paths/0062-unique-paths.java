@@ -1,30 +1,33 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int[][] memo = new int[m+1][n+1];
-        for(int[] arr : memo)
+        int[][] dp = new int[m][n];
+        for(int[] arr : dp)
         {
             Arrays.fill(arr,-1);
         }
-        return helper(m,n,memo);
+        return findUniquePaths(m-1,n-1,dp);
     }
-
-    public static int helper(int m,int n,int[][] memo)
+    public int findUniquePaths(int r,int c,int[][] dp)
     {
-        if(memo[m][n]!=-1)
-        {
-            return memo[m][n];
-        }
-
-        if(m==1 && n==1)
+        if(r==0 && c==0)
         {
             return 1;
         }
 
-        if(m==0 || n==0)
+        if(r<0 || c<0)
         {
             return 0;
         }
 
-        return memo[m][n] = helper(m-1,n,memo) + helper(m,n-1,memo);
+        if(dp[r][c]!=-1)
+        {
+            return dp[r][c];
+        }
+
+        int top = findUniquePaths(r-1,c,dp);
+
+        int left = findUniquePaths(r,c-1,dp);
+
+        return dp[r][c] = top + left;
     }
 }
