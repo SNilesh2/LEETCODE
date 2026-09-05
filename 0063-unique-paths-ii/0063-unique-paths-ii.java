@@ -5,39 +5,38 @@ class Solution {
 
         int[][] dp = new int[m][n];
 
-        for(int[] arr : dp)
-        {
-            Arrays.fill(arr,-1);
-        }
-        return findPaths(m-1,n-1,obstacleGrid,dp);
+        return findPaths(m,n,obstacleGrid,dp);
     }
 
     public int findPaths(int r,int c,int[][] grid,int[][] dp)
     {
-        if(r==0 && c==0 && grid[0][0]!=1)
+        dp[0][0] = (grid[0][0]==0) ? 1 : 0;
+
+        for(int i=0;i<r;i++)
         {
-            return 1;
+            for(int j=0;j<c;j++)
+            {
+                if(i==0 && j==0)
+                {
+                    continue;
+                }
+
+                int top = 0;
+                if(i-1 >= 0)
+                {
+                    top = dp[i-1][j];
+                }
+
+                int left = 0;
+                if(j-1 >= 0)
+                {
+                    left = dp[i][j-1];
+                }
+
+                dp[i][j] = (grid[i][j]==0) ? (top + left) : 0;
+            }
         }
 
-        if(r<0 || c<0)
-        {
-            return 0;
-        }
-
-        if(grid[r][c]==1)
-        {
-            return 0;
-        }
-
-        if(dp[r][c]!=-1)
-        {
-            return dp[r][c];
-        }
-
-        int top = findPaths(r-1,c,grid,dp);
-
-        int left = findPaths(r,c-1,grid,dp);
-
-        return dp[r][c] = top + left;
+        return dp[r-1][c-1];
     }
 }
