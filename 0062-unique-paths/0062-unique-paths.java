@@ -5,22 +5,29 @@ class Solution {
     }
     public int findUniquePaths(int r,int c,int[][] dp)
     {
-        //making all the 0th row value as 0
+        dp[0][0] = 1;
+
         for(int i=0;i<r;i++)
         {
-            dp[i][0] = 1;
-        }
-        //making all the 0th column values as 0
-        for(int i=0;i<c;i++)
-        {
-            dp[0][i] = 1;
-        }
-        for(int i=1;i<r;i++)
-        {
-            for(int j=1;j<c;j++)
+            for(int j=0;j<c;j++)
             {
-                int top = dp[i-1][j];
-                int left = dp[i][j-1];
+                if(i==0 && j==0)
+                {
+                    continue;
+                }
+
+                int top = 0;
+                if(i-1 >= 0)
+                {
+                    top = dp[i-1][j];
+                }
+
+                int left = 0;
+                if(j-1 >=0)
+                {
+                    left = dp[i][j-1];
+                }
+                
                 dp[i][j] = top + left;
             }
         }
