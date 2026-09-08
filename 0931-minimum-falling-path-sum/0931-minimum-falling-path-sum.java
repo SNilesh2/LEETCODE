@@ -2,12 +2,10 @@ class Solution {
     public int minFallingPathSum(int[][] matrix) {
         int length = matrix.length;
 
-        int[][] dp = new int[length][length];
-
-        return findMinSum(matrix,dp);
+        return findMinSum(matrix);
     }
 
-    public int findMinSum(int[][] matrix,int[][] dp)
+    public int findMinSum(int[][] matrix)
     {
         // if(c<0 || c>=matrix.length)
         // {
@@ -28,38 +26,43 @@ class Solution {
         // }
         // return dp[r][c] = matrix[r][c] + mini;
 
+        int[] prev = new int[matrix.length];
+
         for(int i=0;i<matrix.length;i++)
         {
+            int[] curr = new int[matrix.length];
             for(int j=0;j<matrix.length;j++)
             {
                 if(i==0)
                 {
-                    dp[0][j] = matrix[0][j];
+                    curr[j] = matrix[0][j];
                     continue;
                 }
 
                 int upLeft = Integer.MAX_VALUE;
                 if(j-1 >= 0)
                 {
-                    upLeft = dp[i-1][j-1];
+                    upLeft = prev[j-1];
                 }
 
-                int up = dp[i-1][j];
+                int up = prev[j];
 
                 int upRight = Integer.MAX_VALUE;
                 if(j+1 < matrix.length)
                 {
-                    upRight = dp[i-1][j+1];
+                    upRight = prev[j+1];
                 }
 
-                dp[i][j] = matrix[i][j] + Math.min(upLeft,Math.min(up,upRight));
+                curr[j] = matrix[i][j] + Math.min(upLeft,Math.min(up,upRight));
             }
+
+            prev = curr;
         }
 
         int mini = Integer.MAX_VALUE;
         for(int i=0;i<matrix.length;i++)
         {
-            mini = Math.min(mini,dp[matrix.length-1][i]);
+            mini = Math.min(mini,prev[i]);
         }
 
         return mini;
