@@ -31,9 +31,7 @@ class Solution {
         {
             hours = hours + Math.ceil((double)piles[i]/(double)k);
         }
-
-        System.out.println(k + " - " + hours);
-
+        
         if(hours<=h)
         {
             return true;
