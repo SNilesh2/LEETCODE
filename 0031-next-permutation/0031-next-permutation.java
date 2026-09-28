@@ -1,40 +1,46 @@
 class Solution {
     public void nextPermutation(int[] nums) {
-        int ind=-1;
-        int n=nums.length;
-        for(int i=n-2;i>=0;i--)
+        int n = nums.length;
+        int i;
+        for(i=n-1;i>0;i--)
         {
-            if(nums[i]<nums[i+1])
+            if(nums[i-1] < nums[i])
             {
-                ind=i;
+                int ind = findInd(nums,i,nums[i-1]);
+                int temp = nums[i-1];
+                nums[i-1] = nums[ind];
+                nums[ind] = temp;
+
+                reverse(nums,i,n-1);
                 break;
             }
         }
-        if(ind==-1)
+
+        if(i==0)
         {
-           reverse(nums,0);
-           return;
+            reverse(nums,0,n-1);
         }
-        for(int i=n-1;i>ind;i--)
-        {
-            if(nums[i]>nums[ind])
-            {
-                int temp=nums[ind];
-                nums[ind]=nums[i];
-                nums[i]=temp;
-                break;
-            }
-        }
-        reverse(nums,ind+1);
     }
-    public void reverse(int nums[],int start)
+
+    public int findInd(int[] nums,int ind,int val)
     {
-        int end=nums.length-1;
-        while(start<end)
+        for(int i=nums.length-1;i>=ind;i--)
         {
-            int temp=nums[start];
-            nums[start]=nums[end];
-            nums[end]=temp;
+            if(nums[i] > val)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public void reverse(int[] nums,int start,int end)
+    {
+        while(start<=end)
+        {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+
             start++;
             end--;
         }
