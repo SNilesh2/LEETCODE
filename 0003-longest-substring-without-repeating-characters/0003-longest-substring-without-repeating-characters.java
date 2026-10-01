@@ -9,9 +9,9 @@ class Solution {
         {
             int ind = (int)s.charAt(right) ;
             
-            while(arr[ind]>=left && arr[ind]<right)
+            if(arr[ind]>=left && arr[ind]<right)
             {
-                left++;
+                left = arr[ind] + 1;
             }
 
             if(arr[ind]<left)
@@ -22,7 +22,7 @@ class Solution {
             arr[ind] = right;
             right++;
         }
-        
+
         return longest;
     }
 }
