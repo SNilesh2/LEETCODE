@@ -1,9 +1,9 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        return findTotalSub(nums,goal) - findTotalSub(nums,goal-1);
+        return findSubArray(nums,goal) - findSubArray(nums,goal-1);
     }
 
-    public static int findTotalSub(int[] nums,int goal)
+    public int findSubArray(int[] nums,int goal)
     {
         if(goal < 0)
         {
@@ -12,8 +12,8 @@ class Solution {
 
         int left = 0;
         int right = 0;
+        int count = 0;
         int sum = 0;
-        int total = 0;
 
         while(right < nums.length)
         {
@@ -25,14 +25,11 @@ class Solution {
                 left++;
             }
 
-            if(sum <= goal)
-            {
-                total = total + (right - left + 1);
-            }
-
+            count = count + (right - left + 1);
             right++;
         }
 
-        return total;
+
+        return count;
     }
 }
