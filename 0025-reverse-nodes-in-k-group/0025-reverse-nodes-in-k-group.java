@@ -10,53 +10,54 @@
  */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode temp=head;
-        ListNode prevNode=null;
+        ListNode temp = head;
+        ListNode passHead = head;
+        ListNode prevTail = null;
+        int count = 1;
         while(temp!=null)
         {
-            ListNode kthNode=kthnode(temp,k);
-            if(kthNode==null)
+            if(count%k == 0)
             {
-                if(prevNode!=null) prevNode.next=temp;
-                break;
-            }
-            ListNode nextNode=kthNode.next;
-            kthNode.next=null;
-            reverse(temp);
-            if(temp==head)
-            {
-                head=kthNode;
+                ListNode nextHead = temp.next;
+                temp.next = null;
+                ListNode reverseHead = reverse(passHead);
+                if(count==k)
+                {
+                    head = reverseHead;
+                }
+                else
+                {
+                    prevTail.next = reverseHead;
+                }
+
+                prevTail = passHead;
+                passHead.next = nextHead;
+                passHead = nextHead;
+                temp = nextHead;
+                count++;
             }
             else
             {
-                prevNode.next=kthNode;
+                temp = temp.next;
+                count++;
             }
-            prevNode=temp;
-            temp=nextNode;
         }
+
         return head;
     }
-    public ListNode kthnode(ListNode head,int k)
+    public static ListNode reverse(ListNode head)
     {
-        k--;
-        ListNode temp=head;
-        while(temp!=null && k>0)
-        {
-            k--;
-            temp=temp.next;
-        }
-        return temp;
-    }
-    public void reverse(ListNode head)
-    {
-        ListNode temp=head;
-        ListNode prev=null;
+        ListNode prev = null;
+        ListNode temp = head;
+
         while(temp!=null)
         {
-            ListNode front=temp.next;
-            temp.next=prev;
-            prev=temp;
-            temp=front;
+            ListNode nextNode = temp.next;
+            temp.next = prev;
+            prev = temp;
+            temp = nextNode;
         }
+
+        return prev;
     }
 }
