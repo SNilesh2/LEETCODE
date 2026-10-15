@@ -1,37 +1,69 @@
 class Solution {
     public int trap(int[] height) {
-        int n=height.length;
-        int left=0,right=n-1;
-        int leftmax=0;
-        int rightmax=0;
-        int totalwater=0;
-        while(left<right)
+        int[] nge = findNge(height);
+        int[] pge = findPge(height);
+
+        int result = 0;
+        for(int i=0;i<height.length;i++)
         {
-            if(height[left]<height[right])
+            int diff = Math.min(nge[i],pge[i]);
+
+            if(diff==0)
             {
-                if(height[left]>=leftmax)
-                {
-                    leftmax=height[left];
-                }
-                else
-                {
-                    totalwater=totalwater+leftmax-height[left];
-                }
-                left++;
+                continue;
             }
-            else
+
+            result = result + (diff - height[i]);
+        }
+
+        return result;
+    }
+
+    public int[] findNge(int[] height)
+    {
+        int length = height.length;
+        int[] nge = new int[length];
+        Stack<Integer> st = new Stack<>();
+
+        for(int i = height.length-1;i>=0;i--)
+        {
+            while(!st.isEmpty() && st.peek() <= height[i])
             {
-                if(height[right]>=rightmax)
-                {
-                    rightmax=height[right];
-                }
-                else
-                {
-                    totalwater=totalwater+rightmax-height[right];
-                }
-                right--;
+                st.pop();
+            }
+
+            nge[i] = st.isEmpty() ? 0 : st.peek();
+
+            if(st.isEmpty() || st.peek() < height[i])
+            {
+                st.push(height[i]);
             }
         }
-        return totalwater;
+
+        return nge;
+    }
+
+    public int[] findPge(int[] height)
+    {
+        int length = height.length;
+        int[] pge = new int[length];
+        Stack<Integer> st = new Stack<>();
+
+        for(int i=0;i<length;i++)
+        {
+            while(!st.isEmpty() && st.peek() <= height[i])
+            {
+                st.pop();
+            }
+
+            pge[i] = st.isEmpty() ? 0 : st.peek();
+
+            if(st.isEmpty() || st.peek() < height[i])
+            {
+                st.push(height[i]);
+            }
+        }
+
+        return pge;
     }
 }
