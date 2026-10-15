@@ -1,69 +1,30 @@
 class Solution {
     public int trap(int[] height) {
-        int[] nge = findNge(height);
-        int[] pge = findPge(height);
+        int lmax = 0;
+        int rmax = 0;
+
+        int l = 0;
+        int r = height.length-1;
 
         int result = 0;
-        for(int i=0;i<height.length;i++)
+
+        while(l < r)
         {
-            int diff = Math.min(nge[i],pge[i]);
+            lmax = Math.max(lmax,height[l]);
+            rmax = Math.max(rmax,height[r]);
 
-            if(diff==0)
+            if(lmax <= rmax)
             {
-                continue;
+                result = result + (lmax - height[l]);
+                l++;
             }
-
-            result = result + (diff - height[i]);
+            else
+            {
+                result = result + (rmax - height[r]);
+                r--;
+            }
         }
 
         return result;
-    }
-
-    public int[] findNge(int[] height)
-    {
-        int length = height.length;
-        int[] nge = new int[length];
-        Stack<Integer> st = new Stack<>();
-
-        for(int i = height.length-1;i>=0;i--)
-        {
-            while(!st.isEmpty() && st.peek() <= height[i])
-            {
-                st.pop();
-            }
-
-            nge[i] = st.isEmpty() ? 0 : st.peek();
-
-            if(st.isEmpty() || st.peek() < height[i])
-            {
-                st.push(height[i]);
-            }
-        }
-
-        return nge;
-    }
-
-    public int[] findPge(int[] height)
-    {
-        int length = height.length;
-        int[] pge = new int[length];
-        Stack<Integer> st = new Stack<>();
-
-        for(int i=0;i<length;i++)
-        {
-            while(!st.isEmpty() && st.peek() <= height[i])
-            {
-                st.pop();
-            }
-
-            pge[i] = st.isEmpty() ? 0 : st.peek();
-
-            if(st.isEmpty() || st.peek() < height[i])
-            {
-                st.push(height[i]);
-            }
-        }
-
-        return pge;
     }
 }
