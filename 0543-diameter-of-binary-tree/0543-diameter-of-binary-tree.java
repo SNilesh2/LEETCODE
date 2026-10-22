@@ -19,7 +19,7 @@ class Solution {
         findDiameter(root,ans);
         return ans[0];
     }
-    public static int findDiameter(TreeNode root,int[] ans)
+    public int findDiameter(TreeNode root,int[] ans)
     {
         if(root==null)
         {
@@ -30,7 +30,7 @@ class Solution {
 
         int right = findDiameter(root.right,ans);
 
-        ans[0] = Math.max(ans[0],left+right);
+        ans[0] = Math.max(ans[0] ,left + right);
 
         return Math.max(left,right) + 1;
     }
